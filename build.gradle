@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.betterbanking'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.1'
 sourceCompatibility = '15'
 
 configurations {
@@ -22,15 +22,23 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.2.0'
-	testCompile group: 'io.rest-assured', name: 'spring-mock-mvc', version: '4.2.0'
-	compile group: 'io.rest-assured', name: 'rest-assured-common', version: '4.2.0'
-	compile group: 'io.rest-assured', name: 'json-path', version: '4.2.0'
-	compile group: 'io.rest-assured', name: 'xml-path', version: '4.2.0'
-
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testCompile group: 'io.rest-assured', name: 'spring-mock-mvc', version: '3.0.0'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+task srcZip(type: Zip) {
+	archiveClassifier.set("sources")
+	from projectDir
+	include 'src/**/*'
+	include '*.gradle'
+	include 'README.md'
+	doLast {
+		println "Path to zip: $archiveFile.path"
+	}
 }

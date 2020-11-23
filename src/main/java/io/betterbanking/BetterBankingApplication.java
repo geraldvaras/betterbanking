@@ -1,13 +1,13 @@
-package io.betterbanking.restapi;
+package io.betterbanking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RestapiApplication {
+public class BetterBankingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RestapiApplication.class, args);
+		SpringApplication.run(BetterBankingApplication.class, args);
 	}
 
 }

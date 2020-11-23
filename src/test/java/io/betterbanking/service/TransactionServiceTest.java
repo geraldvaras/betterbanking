@@ -1,6 +1,5 @@
-package io.betterbanking.restapi.unit;
+package io.betterbanking.service;
 
-import io.betterbanking.restapi.service.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,7 @@ public class TransactionServiceTest {
     private TransactionService transactionService;
 
     @Test
-    void shouldContainTwoElement(){
-        assertThat(transactionService.findAllByAccountNumber("00000000"),hasSize(2));
+    void shouldContainOneElement(){
+        assertThat(transactionService.findAllByAccountNumber(1),hasSize(1));
     }
 }

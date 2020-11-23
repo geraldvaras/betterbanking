@@ -1,10 +1,10 @@
-package io.betterbanking.restapi;
+package io.betterbanking;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestapiApplicationTests {
+class BetterBankingApplicationTests {
 
 	@Test
 	void contextLoads() {
