@@ -9,6 +9,6 @@ import java.util.List;
 @Service
 public class TransactionService {
     public List<Transaction> findAllByAccountNumber(Integer accountNumber){
-        return List.of(new Transaction(1,"CREDIT","USD",BigDecimal.TEN,"ACME","acme.png"));
+        return List.of(new Transaction("1","CREDIT","USD",BigDecimal.TEN,"ACME","acme.png"));
     }
 }

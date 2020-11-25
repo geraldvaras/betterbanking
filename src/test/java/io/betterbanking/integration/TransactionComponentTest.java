@@ -23,7 +23,7 @@ public class TransactionComponentTest {
     public void testApplicationEndToEnd() {
         given().standaloneSetup(new TransactionController(transactionService))
                 .when()
-                .get(String.format("http://localhost:%s/api/transactions/1234567", port))
+                .get(String.format("http://localhost:%s/transactions/1234567", port))
                 .then()
                 .statusCode(Matchers.is(200));
     }
