@@ -2,7 +2,7 @@ package io.betterbanking.service;
 
 import io.betterbanking.adapter.OBTransactionAdapter;
 import io.betterbanking.entity.Transaction;
-import io.betterbanking.model.OBTransaction6;
+import com.banking.acme.model.OBTransaction6;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

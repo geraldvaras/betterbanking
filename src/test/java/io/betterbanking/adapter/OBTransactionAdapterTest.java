@@ -1,7 +1,7 @@
 package io.betterbanking.adapter;
 
 import io.betterbanking.entity.Transaction;
-import io.betterbanking.model.OBTransaction6;
+import com.banking.acme.model.OBTransaction6;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

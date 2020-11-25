@@ -1,7 +1,7 @@
 package io.betterbanking.adapter;
 
 import io.betterbanking.entity.Transaction;
-import io.betterbanking.model.OBTransaction6;
+import com.banking.acme.model.OBTransaction6;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -32,8 +32,8 @@ public class OBTransactionAdapter {
             merchantName = obTransaction6.getMerchantDetails().getMerchantName();
 
         return new Transaction(
-                type,
                 obTransaction6.getAccountId(),
+                type,
                 unitCurrency,
                 amount.multiply(exchangeRate),
                 merchantName,
