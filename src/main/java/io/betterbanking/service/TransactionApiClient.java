@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TransactionApiClient {
 
-    List<Transaction> getTransactionByAccountNumber(String accountNumber);
+    List<Transaction> findAllByAccountNumber(final String accountNumber);
 }

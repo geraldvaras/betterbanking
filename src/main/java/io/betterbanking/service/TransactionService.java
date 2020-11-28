@@ -1,14 +1,22 @@
 package io.betterbanking.service;
 
 import io.betterbanking.entity.Transaction;
-import org.springframework.stereotype.Service;
+import io.betterbanking.repository.MerchantDetailsRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Service
 public class TransactionService {
-    public List<Transaction> findAllByAccountNumber(Integer accountNumber){
-        return List.of(new Transaction("1","CREDIT","USD",BigDecimal.TEN,"ACME","acme.png"));
+
+    private TransactionApiClient transactionApiClient;
+    private MerchantDetailsRepository merchantDetailsRepository;
+
+    public TransactionService(TransactionApiClient transactionApiClient, MerchantDetailsRepository merchantDetailsRepository) {
+        this.transactionApiClient = transactionApiClient;
+        this.merchantDetailsRepository = merchantDetailsRepository;
+    }
+
+    public List<Transaction> findAllByAccountNumber(String accountNumber){
+        return List.of(new Transaction("1","CREDIT","USD",BigDecimal.TEN,"ACME",null));
     }
 }

@@ -1,7 +1,7 @@
 package io.betterbanking.repository;
 
-import io.betterbanking.entity.Transaction;
+import java.util.Optional;
 
 public interface MerchantDetailsRepository {
-    Transaction addMerchantLogo(Transaction transaction);
+    Optional<String> getMerchantLogo(final String merchandName);
 }

@@ -1,51 +1,54 @@
 package io.betterbanking.service;
 
-import io.betterbanking.adapter.OBTransactionAdapter;
+import com.banking.acme.model.OBReadTransaction6;
 import io.betterbanking.entity.Transaction;
-import com.banking.acme.model.OBTransaction6;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.betterbanking.integration.OBTransactionAdapter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 @Slf4j
-public class RestTransactionApiClient implements TransactionApiClient{
+public class RestTransactionApiClient implements TransactionApiClient {
 
-    private final WebClient webClient;
+    private WebClient webClient;
 
-    private final OBTransactionAdapter obTransactionAdapter;
+    private OBTransactionAdapter obTransactionAdapter;
 
-    public RestTransactionApiClient(@Value("${remoteserver}") String remoteServer, OBTransactionAdapter obTransactionAdapter){
-        this.webClient = WebClient.builder().baseUrl(remoteServer).defaultHeader(HttpHeaders.CONTENT_TYPE).build();
+    public RestTransactionApiClient(OBTransactionAdapter obTransactionAdapter, WebClient.Builder webCliBuilder,
+                                    String apiServerEndPoint) {
         this.obTransactionAdapter = obTransactionAdapter;
+        this.webClient = webCliBuilder
+                .baseUrl(apiServerEndPoint)
+                .build();
     }
 
-    @CircuitBreaker(name = "restTransactionApiClient", fallbackMethod = "fallback")
     @Override
-    public List<Transaction> getTransactionByAccountNumber(String accountNumber) {
-        List<OBTransaction6> obTransaction6List = webClient
-                .get()
-                .uri("/open-banking/v3.1/aisp/accounts/{accountNumber}/transactions", accountNumber)
-                .retrieve()
-                .bodyToFlux(OBTransaction6.class)
-                .collectList()
-                .block();
+    public List<Transaction> findAllByAccountNumber(String accountNumber) {
+        OBReadTransaction6 res = null;
 
-        return obTransaction6List.stream()
-                .map(obTransactionAdapter::adaptTransaction)
+        try {
+            res = webClient.get()
+                    .uri("accounts/" + accountNumber + "/transactions")
+                    .retrieve()
+                    .bodyToMono(OBReadTransaction6.class)
+                    .block()
+            ;
+        } catch (Exception ex) {
+            log.error("failed to retrieve account information due to the following reason {}", ex.getMessage());
+        }
+
+        if (res == null || res.getData() == null) {
+            return Collections.emptyList();
+        }
+
+        return res.getData()
+                .getTransaction()
+                .stream()
+                .map(obTransactionAdapter::adapt)
                 .collect(Collectors.toList());
-    }
-
-    private List<Transaction> fallback(String accountNumber, RuntimeException e) {
-        log.debug("fail: "+e.getStackTrace());
-        return Collections.EMPTY_LIST;
     }
 
 }
